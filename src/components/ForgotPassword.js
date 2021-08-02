@@ -1,54 +1,45 @@
 import React, { useState } from "react";
 import { useForm } from "./useForm";
 import { useAuth } from "../contexts/authContext";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export const Login = () => {
+export const ForgotPassword = () => {
     const validate = (values) => {
         let errors = {};
         if (!values.email) {
             errors.email = "Email address is required";
         }
-        if (!values.password) {
-            errors.password = "Password is required";
-        }
 
         return errors;
     };
 
-    const { login } = useAuth();
-    const history = useHistory();
+    const { resetPassword } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
+    const [message, setMessage] = useState("");
 
     // takes key:value object (values) and uses signup on email and password
-    const handleLogin = async (values) => {
+    const handleResetPassword = async (values) => {
         // processes error code from firebase (for example email already in use)
         const processErrorCode = (error) => {
-            if (error.code === "auth/wrong-password") {
-                setErrors((errors) => ({
-                    ...errors,
-                    password: error.message,
-                }));
-            } else {
-                setErrors((errors) => ({
-                    ...errors,
-                    email: error.message,
-                }));
-            }
+            setErrors((errors) => ({
+                ...errors,
+                email: error.message,
+            }));
         };
 
         try {
             setIsLoading(true);
-            await login(values.email, values.password);
-            history.push("/");
+            console.log(values.email);
+            await resetPassword(values.email);
+            setMessage("Verification email has been sent");
         } catch (error) {
             processErrorCode(error);
-            setIsLoading(false);
         }
+        setIsLoading(false);
     };
 
     const { values, errors, setErrors, handleChange, handleSubmit } = useForm(
-        handleLogin,
+        handleResetPassword,
         validate
     );
 
@@ -68,26 +59,13 @@ export const Login = () => {
                     {errors.email && (
                         <div className="form-error">{errors.email}</div>
                     )}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        onChange={handleChange}
-                        value={values.password || ""}
-                        required
-                    />
-                    {errors.password && (
-                        <div className="form-error">{errors.password}</div>
-                    )}
+                    {message && <div className="form-success">{message}</div>}
                 </div>
 
                 <button type="submit" disabled={isLoading}>
-                    Log In
+                    Reset Password
                 </button>
-                <Link to="/forgot-password">Forgot Password?</Link>
+                <Link to="/login">Log In</Link>
             </form>
             <div>
                 Don't have an account? <Link to="/signup">Sign Up</Link>
