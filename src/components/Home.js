@@ -22,7 +22,6 @@ export const Home = () => {
         <div>
             welcome home
             {currentUser.email}
-            <Link to="/update-profile">Update Profile</Link>
             <button onClick={handleLogout}>Log Out</button>
         </div>
     );
