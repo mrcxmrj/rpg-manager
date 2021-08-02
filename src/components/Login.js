@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "./useForm";
 import { useAuth } from "../contexts/authContext";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export const Login = () => {
     const validate = (values) => {
@@ -17,6 +17,7 @@ export const Login = () => {
     };
 
     const { login } = useAuth();
+    const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
 
     // takes key:value object (values) and uses signup on email and password
@@ -38,8 +39,11 @@ export const Login = () => {
 
         setIsLoading(true);
         login(values.email, values.password)
-            .catch((error) => processErrorCode(error))
-            .finally(() => setIsLoading(false));
+            .then(() => history.push("/"))
+            .catch((error) => {
+                processErrorCode(error);
+                setIsLoading(false);
+            });
     };
 
     const { values, errors, setErrors, handleChange, handleSubmit } = useForm(
