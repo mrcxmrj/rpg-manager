@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "./useForm";
+import { useAuth } from "../contexts/authContext";
 
 export const Signup = () => {
     const validate = (values) => {
@@ -19,18 +20,42 @@ export const Signup = () => {
 
         return errors;
     };
-    const signup = () => {
+
+    /* const signup = () => {
         alert(`User Created!
         Email: ${values.email}
         Password: ${values.password}`);
+    }; */
+    const { signup, currentUser } = useAuth();
+    // takes key:value object (values) and uses signup on email and password
+    const handleSignup = (values) => {
+        //processes error code from firebase (for example email already in use)
+        const processErrorCode = (error) => {
+            if (error.code === "auth/weak-password") {
+                setErrors((errors) => ({
+                    ...errors,
+                    password: error.message,
+                }));
+            } else {
+                setErrors((errors) => ({
+                    ...errors,
+                    email: error.message,
+                }));
+            }
+        };
+
+        signup(values.email, values.password).catch((error) =>
+            processErrorCode(error)
+        );
     };
-    const { values, errors, handleChange, handleSubmit } = useForm(
-        signup,
+
+    const { values, errors, setErrors, handleChange, handleSubmit } = useForm(
+        handleSignup,
         validate
     );
 
     return (
-        <form action="submit" onSubmit={handleSubmit}>
+        <form action="submit" onSubmit={handleSubmit} noValidate>
             <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
@@ -75,6 +100,7 @@ export const Signup = () => {
             </div>
 
             <button type="submit">Sign up</button>
+            {JSON.stringify(currentUser)}
         </form>
     );
 };

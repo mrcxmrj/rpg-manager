@@ -9,7 +9,7 @@ export const useForm = (callback, validate) => {
         const currentErrors = validate(values);
 
         if (Object.keys(currentErrors).length === 0) {
-            callback();
+            callback(values);
             setValues({});
         } else {
             setErrors(currentErrors);
@@ -23,5 +23,5 @@ export const useForm = (callback, validate) => {
         }));
     };
 
-    return { handleSubmit, handleChange, values, errors };
+    return { handleSubmit, handleChange, values, errors, setErrors };
 };
