@@ -15,22 +15,30 @@ export const AuthProvider = ({ children }) => {
     };
     const login = (email, password) => {
         console.log("logging in...");
-        return auth.signInWithEmailAndPassword(email, password);
+        return auth
+            .signInWithEmailAndPassword(email, password)
+            .then(() => console.log("login succesful!"));
+    };
+    const logout = () => {
+        console.log("logging out...");
+        return auth.signOut();
     };
 
     useEffect(() => {
+        console.log(currentUser);
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setCurrentUser(user);
             setIsLoading(false);
         });
 
         return unsubscribe;
-    }, []);
+    }, [currentUser]);
 
     const value = {
         currentUser,
         signup,
         login,
+        logout,
     };
     return (
         <AuthContext.Provider value={value}>

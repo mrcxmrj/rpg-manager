@@ -32,7 +32,7 @@ export const Signup = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     // takes key:value object (values) and uses signup on email and password
-    const handleSignup = (values) => {
+    const handleSignup = async (values) => {
         //processes error code from firebase (for example email already in use)
         const processErrorCode = (error) => {
             if (error.code === "auth/weak-password") {
@@ -48,13 +48,22 @@ export const Signup = () => {
             }
         };
 
-        setIsLoading(true);
+        /* setIsLoading(true);
         signup(values.email, values.password)
             .then(() => history.push("/"))
             .catch((error) => {
                 processErrorCode(error);
                 setIsLoading(false);
-            });
+            }); */
+
+        try {
+            setIsLoading(true);
+            await signup(values.email, values.password);
+            history.push("/");
+        } catch (error) {
+            processErrorCode(error);
+            setIsLoading(false);
+        }
     };
 
     const { values, errors, setErrors, handleChange, handleSubmit } = useForm(

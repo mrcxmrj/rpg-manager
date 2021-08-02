@@ -1,16 +1,21 @@
 import { AuthProvider } from "../contexts/authContext";
-import "./App.css";
+import "../css/app.css";
 import { Signup } from "./Signup";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Home } from "./Home";
 import { Login } from "./Login";
+import { PrivateRoute } from "./PrivateRoute";
 
 function App() {
     return (
         <BrowserRouter>
             <AuthProvider>
                 <Switch>
-                    <Route exact path="/" component={Home}></Route>
+                    <PrivateRoute
+                        exact
+                        path="/"
+                        component={Home}
+                    ></PrivateRoute>
                     <Route path="/signup" component={Signup}></Route>
                     <Route path="/login" component={Login}></Route>
                 </Switch>

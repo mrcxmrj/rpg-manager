@@ -21,7 +21,7 @@ export const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     // takes key:value object (values) and uses signup on email and password
-    const handleLogin = (values) => {
+    const handleLogin = async (values) => {
         // processes error code from firebase (for example email already in use)
         const processErrorCode = (error) => {
             if (error.code === "auth/wrong-password") {
@@ -37,13 +37,15 @@ export const Login = () => {
             }
         };
 
-        setIsLoading(true);
-        login(values.email, values.password)
-            .then(() => history.push("/"))
-            .catch((error) => {
-                processErrorCode(error);
-                setIsLoading(false);
-            });
+        try {
+            setIsLoading(true);
+            await login(values.email, values.password);
+            history.push("/");
+        } catch (error) {
+            processErrorCode(error);
+            console.log("Failed to log in");
+            setIsLoading(false);
+        }
     };
 
     const { values, errors, setErrors, handleChange, handleSubmit } = useForm(
