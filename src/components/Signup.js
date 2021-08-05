@@ -57,10 +57,11 @@ export const Signup = () => {
             const cred = await signup(values.email, values.password);
             // updating user object to hopefully reduce number of requests to database
             // however this necessitates updating profile at two places when editing a profile
-            await cred.user.updateProfile({
+            // actually this probably isn't needed since we're fetching user document for campaigns list anyway
+            /* await cred.user.updateProfile({
                 displayName: values.username,
                 photoURL: values.username.charAt(0),
-            });
+            }); */
             db.collection("users")
                 .doc(cred.user.uid)
                 .set({
