@@ -6,6 +6,7 @@ import { Home } from "./Home";
 import { Login } from "./Login";
 import { PrivateRoute } from "./PrivateRoute";
 import { ForgotPassword } from "./ForgotPassword";
+import { AddCampaign } from "./AddCampaign";
 
 function App() {
     return (
@@ -16,6 +17,11 @@ function App() {
                         exact
                         path="/"
                         component={Home}
+                    ></PrivateRoute>
+                    <PrivateRoute
+                        exact
+                        path="/add-campaign"
+                        component={AddCampaign}
                     ></PrivateRoute>
                     <Route path="/signup" component={Signup}></Route>
                     <Route path="/login" component={Login}></Route>

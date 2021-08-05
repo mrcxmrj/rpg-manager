@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 
 export const Home = () => {
@@ -28,6 +28,9 @@ export const Home = () => {
                 <li>email: {currentUser.email}</li>
                 <li>photo: {currentUser.photoURL}</li>
             </ul>
+            <Link to="/add-campaign">Add a new campaign</Link>
+            <br />
+            <br />
             <button onClick={handleLogout}>Log Out</button>
         </div>
     );
