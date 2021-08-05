@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 
 export const Home = () => {
@@ -20,8 +20,14 @@ export const Home = () => {
 
     return (
         <div>
-            welcome home
-            {currentUser.email}
+            <h3>Welcome to RPG Notes Manager {currentUser.displayName}!</h3>
+            {error}
+            <h5>Your Profile:</h5>
+            <ul>
+                <li>username: {currentUser.displayName}</li>
+                <li>email: {currentUser.email}</li>
+                <li>photo: {currentUser.photoURL}</li>
+            </ul>
             <button onClick={handleLogout}>Log Out</button>
         </div>
     );

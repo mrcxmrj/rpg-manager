@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { useForm } from "./useForm";
 import { useAuth } from "../contexts/authContext";
 import { Link, useHistory } from "react-router-dom";
+import { db } from "../firebase";
 
 export const Signup = () => {
     const validate = (values) => {
         let errors = {};
         if (!values.email) {
             errors.email = "Email address is required";
+        }
+        if (!values.username) {
+            errors.username = "Username is required";
         }
         if (!values.password) {
             errors.password = "Password is required";
@@ -48,17 +52,22 @@ export const Signup = () => {
             }
         };
 
-        /* setIsLoading(true);
-        signup(values.email, values.password)
-            .then(() => history.push("/"))
-            .catch((error) => {
-                processErrorCode(error);
-                setIsLoading(false);
-            }); */
-
         try {
             setIsLoading(true);
-            await signup(values.email, values.password);
+            const cred = await signup(values.email, values.password);
+            // updating user object to hopefully reduce number of requests to database
+            // however this necessitates updating profile at two places when editing a profile
+            await cred.user.updateProfile({
+                displayName: values.username,
+                photoURL: values.username.charAt(0),
+            });
+            db.collection("users")
+                .doc(cred.user.uid)
+                .set({
+                    username: values.username,
+                    email: values.email,
+                    photo: values.username.charAt(0),
+                });
             history.push("/");
         } catch (error) {
             processErrorCode(error);
@@ -74,6 +83,20 @@ export const Signup = () => {
     return (
         <div>
             <form action="submit" onSubmit={handleSubmit} noValidate>
+                <div className="form-group">
+                    <label htmlFor="username">Username</label>
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        onChange={handleChange}
+                        value={values.username || ""}
+                        required
+                    />
+                    {errors.username && (
+                        <div className="form-error">{errors.username}</div>
+                    )}
+                </div>
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <input
