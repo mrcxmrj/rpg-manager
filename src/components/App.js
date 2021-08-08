@@ -7,6 +7,7 @@ import { Login } from "./Login";
 import { PrivateRoute } from "./PrivateRoute";
 import { ForgotPassword } from "./ForgotPassword";
 import { AddCampaign } from "./AddCampaign";
+import { Campaign } from "./Campaign";
 
 function App() {
     return (
@@ -22,6 +23,12 @@ function App() {
                         exact
                         path="/add-campaign"
                         component={AddCampaign}
+                    ></PrivateRoute>
+                    {/* this route should be accesible only by players */}
+                    <PrivateRoute
+                        exact
+                        path="/campaigns/:id"
+                        component={Campaign}
                     ></PrivateRoute>
                     <Route path="/signup" component={Signup}></Route>
                     <Route path="/login" component={Login}></Route>

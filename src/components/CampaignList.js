@@ -1,7 +1,8 @@
-import { render } from "@testing-library/react";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 import { db } from "../firebase";
+import { Campaign } from "./Campaign";
 
 export const CampaignList = () => {
     // campaigns is an object of campaignTitle:campaignRef pairs
@@ -30,7 +31,11 @@ export const CampaignList = () => {
     const renderCampaignTitles = (campaigns) => {
         let result = [];
         for (let key in campaigns) {
-            result.push(<li key={campaigns[key]}>{key}</li>);
+            result.push(
+                <li key={campaigns[key]}>
+                    <Link to={`/campaigns/${campaigns[key]}`}>{key}</Link>
+                </li>
+            );
         }
         return <ul>{result}</ul>;
     };
