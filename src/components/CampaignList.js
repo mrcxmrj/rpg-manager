@@ -39,7 +39,7 @@ export const CampaignList = () => {
     return (
         <div>
             <h2>Your campaigns:</h2>
-            {renderCampaignTitles(campaigns)}
+            {!loading && renderCampaignTitles(campaigns)}
             {/* {campaigns.map((campaign) => (
                     <li>{campaign}</li>
                 ))} */}
