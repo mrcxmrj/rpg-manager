@@ -25,16 +25,18 @@ export const AddCampaign = () => {
             const newCampaignRef = db.collection("campaigns").doc();
             const updateCampaigns = newCampaignRef.set({
                 name: values.name,
-                system: values.system,
-                description: values.description,
+                system: values.system || "",
+                description: values.description || "",
                 gm: currentUser.displayName,
                 gmUid: currentUser.uid,
             });
+            // creates new record in campaigns map of type title:campaignId
             const updateUsers = db
                 .collection("users")
                 .doc(currentUser.uid)
                 .update({
-                    campaigns: { [values.name]: newCampaignRef },
+                    //campaigns: { [values.name]: newCampaignRef },
+                    [`campaigns.${values.name}`]: newCampaignRef.id,
                 });
             await Promise.all([updateCampaigns, updateUsers]);
             history.push("/");
