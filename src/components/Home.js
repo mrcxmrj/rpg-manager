@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 import { CampaignList } from "./CampaignList";
 
@@ -19,9 +19,11 @@ export const Home = () => {
         }
     };
 
+    // currently storing displayName, photoUrl etc is not supported for user object
+    // fetch from CampaignList component should be here storing current user data and passing it on as props
     return (
         <div>
-            <h1>Welcome to RPG Notes Manager {currentUser.displayName}!</h1>
+            <h1>Welcome to RPG Notes Manager, {currentUser.displayName}!</h1>
             {error}
             <h2>Your Profile:</h2>
             <ul>
@@ -31,7 +33,6 @@ export const Home = () => {
                 <li>photo: {currentUser.photoURL}</li>
             </ul>
             <CampaignList />
-            <Link to="/add-campaign">Add a new campaign</Link>
             <br />
             <br />
             <button onClick={handleLogout}>Log Out</button>

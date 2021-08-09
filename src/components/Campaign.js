@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../contexts/authContext";
 import { db } from "../firebase";
+import { GmPanel } from "./GmPanel";
 
 export const Campaign = () => {
     const { id } = useParams();
+    const { currentUser } = useAuth();
     const [data, setData] = useState({
         players: [
             { username: "player1", uid: "asdf", xp: "22" },
@@ -49,6 +52,9 @@ export const Campaign = () => {
                         </ol>
                     </li>
                 </ul>
+                {currentUser.uid === data.gmUid && (
+                    <GmPanel data={data} campaignId={id} />
+                )}
             </div>
         )
     );

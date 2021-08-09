@@ -7,6 +7,7 @@ import { Campaign } from "./Campaign";
 export const CampaignList = () => {
     // campaigns is an object of campaignTitle:campaignRef pairs
     const [campaigns, setCampaigns] = useState({});
+    const [campaignInvites, setCampaignInvites] = useState([]);
     const [loading, setLoading] = useState(true);
     const { currentUser } = useAuth();
 
@@ -22,6 +23,9 @@ export const CampaignList = () => {
                     };
                     return newObj;
                 });
+                if (doc.data().pendingInvites) {
+                    setCampaignInvites(doc.data().pendingInvites);
+                }
                 setLoading(false);
             });
 
@@ -40,14 +44,32 @@ export const CampaignList = () => {
         return <ul>{result}</ul>;
     };
 
-    console.log(campaigns);
+    const renderCampaignInvites = (invites) => {
+        return (
+            <ol>
+                {invites.map((invite) => (
+                    <li key={invite.campaignId}>
+                        {`${invite.gm} invites you to participate in "${
+                            invite.name
+                        }" campaign! | ${invite.date.toDate()}`}
+                        {/* here should be buttons to accept/decline invitation*/}
+                    </li>
+                ))}
+            </ol>
+        );
+    };
+
+    //console.log(campaignInvites);
     return (
         <div>
             <h2>Your campaigns:</h2>
             {!loading && renderCampaignTitles(campaigns)}
+            <Link to="/add-campaign">Add a new campaign</Link>
             {/* {campaigns.map((campaign) => (
                     <li>{campaign}</li>
                 ))} */}
+            <h2>Pending campaign invites:</h2>
+            {!loading && renderCampaignInvites(campaignInvites)}
         </div>
     );
 };
