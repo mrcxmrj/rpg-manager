@@ -60,15 +60,17 @@ export const CampaignList = () => {
 
     //console.log(campaignInvites);
     return (
-        <div>
-            <h2>Your campaigns:</h2>
-            {!loading && renderCampaignTitles(campaigns)}
-            <Link to="/add-campaign">Add a new campaign</Link>
-            {/* {campaigns.map((campaign) => (
+        !loading && (
+            <div>
+                <h2>Your campaigns:</h2>
+                {renderCampaignTitles(campaigns)}
+                <Link to="/add-campaign">Add a new campaign</Link>
+                {/* {campaigns.map((campaign) => (
                     <li>{campaign}</li>
                 ))} */}
-            <h2>Pending campaign invites:</h2>
-            {!loading && renderCampaignInvites(campaignInvites)}
-        </div>
+                <h2>Pending campaign invites:</h2>
+                {renderCampaignInvites(campaignInvites)}
+            </div>
+        )
     );
 };
