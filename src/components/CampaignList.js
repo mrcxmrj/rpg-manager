@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 import { db } from "../firebase";
-import { Campaign } from "./Campaign";
 
 export const CampaignList = () => {
     // campaigns is an object of campaignTitle:campaignRef pairs
