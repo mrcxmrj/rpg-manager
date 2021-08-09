@@ -5,7 +5,10 @@ import { db } from "../firebase";
 export const Campaign = () => {
     const { id } = useParams();
     const [data, setData] = useState({
-        players: [{ username: "player1", uid: "asdf" }, "player2"],
+        players: [
+            { username: "player1", uid: "asdf", xp: "22" },
+            { username: "player2", uid: "fdas", xp: "32" },
+        ],
     });
     const [loading, setLoading] = useState(true);
 
@@ -39,7 +42,9 @@ export const Campaign = () => {
                         players:
                         <ol>
                             {data.players.map((player) => (
-                                <li>{player}</li>
+                                <li>
+                                    {player.username + " | " + player.xp + "xp"}
+                                </li>
                             ))}
                         </ol>
                     </li>
