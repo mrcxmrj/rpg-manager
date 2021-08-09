@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/authContext";
 import { db } from "../firebase";
 
 export const CampaignList = () => {
-    // campaigns is an object of campaignTitle:campaignRef pairs
+    // campaigns is an object of campaignTitle:campaignId pairs
     const [campaigns, setCampaigns] = useState({});
     const [campaignInvites, setCampaignInvites] = useState([]);
     const [loading, setLoading] = useState(true);
