@@ -5,8 +5,8 @@ import { useForm } from "./useForm";
 export const GmPanel = (props) => {
     const validate = (values) => {
         let errors = {};
-        if (!values.uid) {
-            errors.uid = "Player ID is required";
+        if (!values.username) {
+            errors.username = "Player username is required";
         }
 
         return errors;
@@ -15,11 +15,21 @@ export const GmPanel = (props) => {
     const invite = async (values) => {
         try {
             setLoading(true);
-            const cred = db.collection("users").doc(values.uid);
+            const query = db
+                .collection("users")
+                .where("username", "==", values.username)
+                .limit(1);
 
-            cred.get().then((docSnapshot) => {
-                if (docSnapshot.exists) {
-                    cred.update({
+            await query.get().then((querySnapshot) => {
+                if (querySnapshot.empty) {
+                    setErrors((errors) => ({
+                        ...errors,
+                        username: "No player with provided username",
+                    }));
+                } else {
+                    console.log("sending invite");
+                    const docRef = querySnapshot.docs[0].ref;
+                    docRef.update({
                         pendingInvites: arrayUnion({
                             name: props.data.name,
                             gm: props.data.gm,
@@ -27,17 +37,12 @@ export const GmPanel = (props) => {
                             campaignId: props.campaignId,
                         }),
                     });
-                } else {
-                    setErrors((errors) => ({
-                        ...errors,
-                        uid: "No player with provided id",
-                    }));
                 }
             });
         } catch (error) {
             setErrors((errors) => ({
                 ...errors,
-                uid: error.message,
+                username: error.message,
             }));
         }
         setLoading(false);
@@ -51,20 +56,22 @@ export const GmPanel = (props) => {
 
     return (
         <form action="submit" onSubmit={handleSubmit} noValidate>
-            <label htmlFor="uid">Invite new player</label>
+            <label htmlFor="username">Invite new player</label>
             <input
                 type="text"
-                name="uid"
-                id="uid"
+                name="username"
+                id="username"
                 onChange={handleChange}
-                value={values.uid || ""}
+                value={values.username || ""}
                 required
                 placeholder="player ID"
             />
             <button type="submit" disabled={loading}>
                 Invite
             </button>
-            {errors.uid && <div className="form-error">{errors.uid}</div>}
+            {errors.username && (
+                <div className="form-error">{errors.username}</div>
+            )}
         </form>
     );
 };

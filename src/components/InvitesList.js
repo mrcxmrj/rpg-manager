@@ -6,7 +6,7 @@ export const InvitesList = ({ pendingInvites }) => {
             return (
                 <ol>
                     {invites.map((invite) => (
-                        <li key={invite.campaignId}>
+                        <li key={invite.campaignId + invite.date.seconds}>
                             {`${invite.gm} invites you to participate in "${
                                 invite.name
                             }" campaign! | ${invite.date.toDate()}`}
