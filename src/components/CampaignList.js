@@ -43,15 +43,20 @@ export const CampaignList = ({ campaigns }) => {
 
     // returns ul by iterating over campaigns keys
     // (campaigns is an object of key:value pairs storing campaigntitle:campaignId)
-    const renderCampaignTitles = (campaigns) => (
-        <ul>
-            {Object.keys(campaigns).map((key) => (
-                <li key={campaigns[key]}>
-                    <Link to={`/campaigns/${campaigns[key]}`}>{key}</Link>
-                </li>
-            ))}
-        </ul>
-    );
+    const renderCampaignTitles = (campaigns) => {
+        if (campaigns)
+            return (
+                <ul>
+                    {Object.keys(campaigns).map((key) => (
+                        <li key={campaigns[key]}>
+                            <Link to={`/campaigns/${campaigns[key]}`}>
+                                {key}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            );
+    };
 
     return (
         <div>
