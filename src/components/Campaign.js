@@ -45,7 +45,7 @@ export const Campaign = () => {
                         players:
                         <ol>
                             {data.players.map((player) => (
-                                <li>
+                                <li key={player.uid}>
                                     {player.username + " | " + player.xp + "xp"}
                                 </li>
                             ))}

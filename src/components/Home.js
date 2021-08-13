@@ -5,6 +5,8 @@ import { db } from "../firebase";
 import { CampaignList } from "./CampaignList";
 import { InvitesList } from "./InvitesList";
 
+// this component probably should be renamed at some point to ProfileHome or something
+// because there should be a landing page for not signed in users
 export const Home = () => {
     const { currentUser, logout } = useAuth();
     const [error, setError] = useState("");
@@ -19,16 +21,6 @@ export const Home = () => {
             .doc(currentUser.uid)
             .onSnapshot((doc) => {
                 setUserData(doc.data());
-                /* setUser((currentCampaigns) => {
-                    let newObj = {
-                        ...currentCampaigns,
-                        ...doc.data().campaigns,
-                    };
-                    return newObj;
-                });
-                if (doc.data().pendingInvites) {
-                    setCampaignInvites(doc.data().pendingInvites);
-                } */
                 setLoading(false);
                 console.log("fetched");
             });
