@@ -56,7 +56,10 @@ export const Signup = () => {
             setIsLoading(true);
 
             // check if user with provided username exists in usernames collection
-            const doc = await db.collection("usernames").doc(values.username);
+            const doc = await db
+                .collection("usernames")
+                .doc(values.username)
+                .get();
             if (doc.exists) {
                 setErrors((errors) => ({
                     ...errors,
