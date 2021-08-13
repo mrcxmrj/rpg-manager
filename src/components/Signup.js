@@ -54,6 +54,19 @@ export const Signup = () => {
 
         try {
             setIsLoading(true);
+
+            // check if user with provided username exists in usernames collection
+            const doc = await db.collection("usernames").doc(values.username);
+            if (doc.exists) {
+                setErrors((errors) => ({
+                    ...errors,
+                    username: "Username already in use",
+                }));
+                setIsLoading(false);
+                return;
+            }
+
+            console.log("singing up...");
             const cred = await signup(values.email, values.password);
             // updating user object to hopefully reduce number of requests to database
             // however this necessitates updating profile at two places when editing a profile
@@ -62,14 +75,22 @@ export const Signup = () => {
                 displayName: values.username,
                 photoURL: values.username.charAt(0),
             }); */
-            await db
+            const signUpDbUser = db
                 .collection("users")
-                .doc(cred.user.uid)
+                .doc(values.username)
+                .set({
+                    uid: cred.uid,
+                });
+            const signUpDbUsername = db
+                .collection("usernames")
+                .doc(cred.uid)
                 .set({
                     username: values.username,
                     email: values.email,
                     photo: values.username.charAt(0),
                 });
+
+            await Promise.all([signUpDbUser, signUpDbUsername]);
             history.push("/");
         } catch (error) {
             processErrorCode(error);

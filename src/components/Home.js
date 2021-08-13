@@ -39,6 +39,8 @@ export const Home = () => {
         }
     };
 
+    console.log(userData);
+
     return (
         !loading && (
             <div>
