@@ -62,7 +62,8 @@ export const Signup = () => {
                 displayName: values.username,
                 photoURL: values.username.charAt(0),
             }); */
-            db.collection("users")
+            await db
+                .collection("users")
                 .doc(cred.user.uid)
                 .set({
                     username: values.username,
