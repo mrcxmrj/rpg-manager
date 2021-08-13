@@ -15,7 +15,7 @@ export const Home = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log("fetching...");
+        console.log("fetching users...");
         const unsubscribe = db
             .collection("users")
             .doc(currentUser.uid)
