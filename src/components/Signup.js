@@ -26,11 +26,6 @@ export const Signup = () => {
         return errors;
     };
 
-    /* const signup = () => {
-        alert(`User Created!
-        Email: ${values.email}
-        Password: ${values.password}`);
-    }; */
     const { signup } = useAuth();
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
