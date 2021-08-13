@@ -1,12 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
+import { db } from "../firebase";
 import { CampaignList } from "./CampaignList";
+import { InvitesList } from "./InvitesList";
 
 export const Home = () => {
     const { currentUser, logout } = useAuth();
     const [error, setError] = useState("");
     const history = useHistory();
+    const [userData, setUserData] = useState({});
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        console.log("fetching...");
+        const unsubscribe = db
+            .collection("users")
+            .doc(currentUser.uid)
+            .onSnapshot((doc) => {
+                setUserData(doc.data());
+                /* setUser((currentCampaigns) => {
+                    let newObj = {
+                        ...currentCampaigns,
+                        ...doc.data().campaigns,
+                    };
+                    return newObj;
+                });
+                if (doc.data().pendingInvites) {
+                    setCampaignInvites(doc.data().pendingInvites);
+                } */
+                setLoading(false);
+                console.log("fetched");
+            });
+
+        return unsubscribe;
+    }, [currentUser.uid]);
 
     const handleLogout = async () => {
         setError("");
@@ -19,23 +47,24 @@ export const Home = () => {
         }
     };
 
-    // currently storing displayName, photoUrl etc is not supported for user object
-    // fetch from CampaignList component should be here storing current user data and passing it on as props
     return (
-        <div>
-            <h1>Welcome to RPG Notes Manager, {currentUser.displayName}!</h1>
-            {error}
-            <h2>Your Profile:</h2>
-            <ul>
-                <li>username: {currentUser.displayName}</li>
-                <li>user ID: {currentUser.uid}</li>
-                <li>email: {currentUser.email}</li>
-                <li>photo: {currentUser.photoURL}</li>
-            </ul>
-            <CampaignList />
-            <br />
-            <br />
-            <button onClick={handleLogout}>Log Out</button>
-        </div>
+        !loading && (
+            <div>
+                <h1>Welcome to RPG Notes Manager, {userData.username}!</h1>
+                {error}
+                <h2>Your Profile:</h2>
+                <ul>
+                    <li>username: {userData.username}</li>
+                    <li>user ID: {currentUser.uid}</li>
+                    <li>email: {userData.email}</li>
+                    <li>photo: {userData.photo}</li>
+                </ul>
+                <CampaignList campaigns={userData.campaigns} />
+                <InvitesList pendingInvites={userData.pendingInvites} />
+                <br />
+                <br />
+                <button onClick={handleLogout}>Log Out</button>
+            </div>
+        )
     );
 };
