@@ -9,6 +9,7 @@ import { ForgotPassword } from "./ForgotPassword";
 import { AddCampaign } from "./AddCampaign";
 import { Campaign } from "./Campaign";
 import { Navbar } from "./Navbar";
+import { Home } from "./Home";
 
 function App() {
     return (
@@ -19,6 +20,11 @@ function App() {
                     <PrivateRoute
                         exact
                         path="/"
+                        component={Home}
+                    ></PrivateRoute>
+                    <PrivateRoute
+                        exact
+                        path="/profile"
                         component={Profile}
                     ></PrivateRoute>
                     <PrivateRoute

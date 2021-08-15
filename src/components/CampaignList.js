@@ -59,10 +59,9 @@ export const CampaignList = ({ campaigns }) => {
     };
 
     return (
-        <div>
-            <h2>Your campaigns:</h2>
+        <>
             {renderCampaignTitles(campaigns)}
             <Link to="/add-campaign">Add a new campaign</Link>
-        </div>
+        </>
     );
 };

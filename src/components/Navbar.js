@@ -11,11 +11,10 @@ export const Navbar = () => {
     const links = [
         // /campaigns should be a route to a component containing global list of all campaigns
         { title: "campaigns", path: "/campaigns" },
-        // /profile should be a route to a profile details/update profile component
-        { title: "profile", path: "/" },
+        { title: "profile", path: "/profile" },
     ];
 
-    const renderLinks = (links, logoutBtn) => {
+    const renderLinks = (links) => {
         return (
             <ul className={styles.links}>
                 {links.map((link) => (
@@ -41,7 +40,9 @@ export const Navbar = () => {
 
     return (
         <div className={styles.navbar}>
-            <h1>RPG Manager</h1>
+            <h1>
+                <Link to="/">RPG Manager</Link>
+            </h1>
             {currentUser && renderLinks(links)}
         </div>
     );
