@@ -8,11 +8,13 @@ import { PrivateRoute } from "./PrivateRoute";
 import { ForgotPassword } from "./ForgotPassword";
 import { AddCampaign } from "./AddCampaign";
 import { Campaign } from "./Campaign";
+import { Navbar } from "./Navbar";
 
 function App() {
     return (
         <BrowserRouter>
             <AuthProvider>
+                <Navbar />
                 <Switch>
                     <PrivateRoute
                         exact

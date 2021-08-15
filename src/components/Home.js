@@ -28,7 +28,7 @@ export const Home = () => {
         return unsubscribe;
     }, [currentUser.uid]);
 
-    const handleLogout = async () => {
+    /* const handleLogout = async () => {
         setError("");
 
         try {
@@ -37,7 +37,7 @@ export const Home = () => {
         } catch (error) {
             setError(error);
         }
-    };
+    }; */
 
     console.log(userData);
 
@@ -55,9 +55,9 @@ export const Home = () => {
                 </ul>
                 <CampaignList campaigns={userData.campaigns} />
                 <InvitesList pendingInvites={userData.pendingInvites} />
+                {/*  <br />
                 <br />
-                <br />
-                <button onClick={handleLogout}>Log Out</button>
+                <button onClick={handleLogout}>Log Out</button> */}
             </div>
         )
     );
