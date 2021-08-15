@@ -7,7 +7,7 @@ import { InvitesList } from "./InvitesList";
 
 // this component probably should be renamed at some point to ProfileHome or something
 // because there should be a landing page for not signed in users
-export const Home = () => {
+export const Profile = () => {
     const { currentUser, logout } = useAuth();
     const [error, setError] = useState("");
     const history = useHistory();
@@ -27,17 +27,6 @@ export const Home = () => {
 
         return unsubscribe;
     }, [currentUser.uid]);
-
-    /* const handleLogout = async () => {
-        setError("");
-
-        try {
-            await logout();
-            history.push("login");
-        } catch (error) {
-            setError(error);
-        }
-    }; */
 
     console.log(userData);
 

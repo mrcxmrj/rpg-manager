@@ -2,7 +2,7 @@ import { AuthProvider } from "../contexts/authContext";
 import "../css/app.css";
 import { Signup } from "./Signup";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { Home } from "./Home";
+import { Profile } from "./Profile";
 import { Login } from "./Login";
 import { PrivateRoute } from "./PrivateRoute";
 import { ForgotPassword } from "./ForgotPassword";
@@ -19,7 +19,7 @@ function App() {
                     <PrivateRoute
                         exact
                         path="/"
-                        component={Home}
+                        component={Profile}
                     ></PrivateRoute>
                     <PrivateRoute
                         exact
