@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useForm } from "./useForm";
-import { useAuth } from "../contexts/authContext";
+import { useForm } from "../useForm";
+import { useAuth } from "../../contexts/authContext";
 import { Link, useHistory } from "react-router-dom";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
 export const Signup = () => {
     const validate = (values) => {

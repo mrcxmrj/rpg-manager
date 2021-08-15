@@ -1,6 +1,6 @@
 import { AuthProvider } from "../contexts/authContext";
 import "../css/app.css";
-import { Signup } from "./Signup";
+import { Signup } from "./auth/Signup";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Profile } from "./Profile";
 import { Login } from "./Login";
