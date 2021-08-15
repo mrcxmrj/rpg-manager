@@ -9,7 +9,6 @@ import { InvitesList } from "./InvitesList";
 // because there should be a landing page for not signed in users
 export const Profile = () => {
     const { currentUser, userData } = useAuth();
-    const [error, setError] = useState("");
     //const history = useHistory();
     //const [loading, setLoading] = useState(true);
 
@@ -27,11 +26,9 @@ export const Profile = () => {
         return unsubscribe;
     }, [currentUser.uid]); */
 
-    console.log("profile has user data:", userData);
     return (
         <div>
             <h1>Welcome to RPG Notes Manager, {userData.username}!</h1>
-            {error}
             <h2>Your Profile:</h2>
             <ul>
                 <li>username: {userData.username}</li>

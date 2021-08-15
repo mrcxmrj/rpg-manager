@@ -8,7 +8,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState();
     const [userData, setUserData] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     const signup = (email, password) => {
         console.log("signing up...");
@@ -33,22 +33,20 @@ export const AuthProvider = ({ children }) => {
         console.log(currentUser);
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setCurrentUser(user);
-            setIsLoading(false);
         });
 
         return unsubscribe;
     }, [currentUser]);
 
     useEffect(() => {
-        const unsubscribe = () => {
-            if (currentUser.uid)
-                return db
-                    .collection("users")
-                    .doc(currentUser.uid)
-                    .onSnapshot((doc) => {
-                        setUserData(doc.data());
-                    });
-        };
+        if (!currentUser) return;
+        const unsubscribe = db
+            .collection("users")
+            .doc(currentUser.uid)
+            .onSnapshot((doc) => {
+                setUserData(doc.data());
+                setLoading(false);
+            });
 
         return unsubscribe;
     }, [currentUser]);
@@ -63,7 +61,7 @@ export const AuthProvider = ({ children }) => {
     };
     return (
         <AuthContext.Provider value={value}>
-            {!isLoading && children}
+            {!loading && children}
         </AuthContext.Provider>
     );
 };
