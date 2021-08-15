@@ -8,13 +8,12 @@ import { InvitesList } from "./InvitesList";
 // this component probably should be renamed at some point to ProfileHome or something
 // because there should be a landing page for not signed in users
 export const Profile = () => {
-    const { currentUser, logout } = useAuth();
+    const { currentUser, userData } = useAuth();
     const [error, setError] = useState("");
-    const history = useHistory();
-    const [userData, setUserData] = useState({});
-    const [loading, setLoading] = useState(true);
+    //const history = useHistory();
+    //const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
+    /* useEffect(() => {
         console.log("fetching users...");
         const unsubscribe = db
             .collection("users")
@@ -26,28 +25,25 @@ export const Profile = () => {
             });
 
         return unsubscribe;
-    }, [currentUser.uid]);
+    }, [currentUser.uid]); */
 
-    console.log(userData);
-
+    console.log("profile has user data:", userData);
     return (
-        !loading && (
-            <div>
-                <h1>Welcome to RPG Notes Manager, {userData.username}!</h1>
-                {error}
-                <h2>Your Profile:</h2>
-                <ul>
-                    <li>username: {userData.username}</li>
-                    <li>user ID: {currentUser.uid}</li>
-                    <li>email: {userData.email}</li>
-                    <li>photo: {userData.photo}</li>
-                </ul>
-                <CampaignList campaigns={userData.campaigns} />
-                <InvitesList pendingInvites={userData.pendingInvites} />
-                {/*  <br />
+        <div>
+            <h1>Welcome to RPG Notes Manager, {userData.username}!</h1>
+            {error}
+            <h2>Your Profile:</h2>
+            <ul>
+                <li>username: {userData.username}</li>
+                <li>user ID: {currentUser.uid}</li>
+                <li>email: {userData.email}</li>
+                <li>photo: {userData.photo}</li>
+            </ul>
+            <CampaignList campaigns={userData.campaigns} />
+            <InvitesList pendingInvites={userData.pendingInvites} />
+            {/*  <br />
                 <br />
                 <button onClick={handleLogout}>Log Out</button> */}
-            </div>
-        )
+        </div>
     );
 };
