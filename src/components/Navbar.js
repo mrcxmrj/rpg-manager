@@ -2,6 +2,8 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 
+import styles from "../css/navbar.module.css";
+
 export const Navbar = () => {
     const history = useHistory();
     const { currentUser, logout } = useAuth();
@@ -13,15 +15,18 @@ export const Navbar = () => {
         { title: "profile", path: "/" },
     ];
 
-    const renderLinks = (links) => {
+    const renderLinks = (links, logoutBtn) => {
         return (
-            <ol>
+            <ul className={styles.links}>
                 {links.map((link) => (
                     <li key={link.title}>
-                        {<Link to={link.path}>{link.title}</Link>}
+                        <Link to={link.path}>{link.title}</Link>
                     </li>
                 ))}
-            </ol>
+                <li key="logout" onClick={handleLogout}>
+                    log out
+                </li>
+            </ul>
         );
     };
 
@@ -35,14 +40,9 @@ export const Navbar = () => {
     };
 
     return (
-        <div>
+        <div className={styles.navbar}>
             <h1>RPG Manager</h1>
-            {currentUser && (
-                <div>
-                    {renderLinks(links)}
-                    <button onClick={handleLogout}>log out</button>
-                </div>
-            )}
+            {currentUser && renderLinks(links)}
         </div>
     );
 };

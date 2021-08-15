@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Stylish&display=swap");
+@import "./vars.css";
+
+* {
+    box-sizing: inherit;
+}
+
+:root {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-dark-purple);
+    color: var(--color-linen);
+    font-family: "Open Sans", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Stylish", sans-serif;
+}
+
+a {
+    color: var(--color-linen);
+    text-decoration: none; /* no underline */
+}
+a:hover {
+    color: var(--color-grey-purple);
+}

@@ -1,0 +1,41 @@
+.navbar {
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-family: "Stylish", sans-serif;
+}
+
+.navbar > h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 4rem;
+}
+
+.links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    font-size: 3rem;
+}
+
+.links > li {
+    display: inline;
+    color: var(--color-linen);
+}
+
+.links > li:not(:last-child)::after {
+    content: " | ";
+}
+
+.links > li:hover {
+    color: var(--color-grey-purple);
+    cursor: pointer;
+}
+
+.links > li:hover::after {
+    color: var(--color-linen);
+    cursor: default;
+}
